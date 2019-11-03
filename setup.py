@@ -56,7 +56,7 @@ setup(
         'activitylog',
     ],
     include_package_data=True,
-    install_requires=["2.0<=Django>2.3","2.8.0<=python-dateutil>2.9"],
+    install_requires=["Django>=2.0, >2.3","python-dateutil>=2.8.0, >2.9"],
     license="MIT",
     zip_safe=False,
     keywords='django_activitylog',
