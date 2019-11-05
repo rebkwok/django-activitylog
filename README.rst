@@ -63,15 +63,20 @@ Add django-activitylog's URL patterns:
     ]
 
 Add settings:
+.. code-block:: python
+
+    ACTIVITYLOG_TIMESTAMP_FORMAT = "%d-%b-%Y %H:%M:%S (%Z)"  # format for displaying log timestamps
+
+
+Optional: if you want to use the delete_old_activitylogs management command to backup and delete old logs:
 
 .. code-block:: python
 
+    ACTIVITYLOG_EMPTY_JOB_TEXT = []  # default []
     ACTIVITYLOG_BACKUP_TYPE = ""  # options "s3" or "filesystem"; default "filesystem"
     ACTIVITYLOG_BACKUP_PATH = ""  # required if ACTIVITYLOG_BACKUP_TYPE == "filesystem"; path to back up logs
     ACTIVITYLOG_BACKUP_ROOT_FILENAME = ""  # base filename for backup; default "activitylog_backup"
     ACTIVITYLOG_S3_BACKUP_PATH = "s3://path/to/s3/bucket"  # required if ACTIVITYLOG_BACKUP_TYPE == "s3";
-    ACTIVITYLOG_EMPTY_JOB_TEXT = []  # default []
-    ACTIVITYLOG_TIMESTAMP_FORMAT = "%d-%b-%Y %H:%M:%S (%Z)"  # format for displaying log timestamps
 
 Features
 --------
