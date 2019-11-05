@@ -1,0 +1,95 @@
+{% load static %}
+
+<html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'activitylog/css/jquery.datetimepicker.css' %}"/>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+    {% block content %}
+        <div class="container-fluid row">
+            <h2>Activity Log</h2>
+
+            <div class=row>
+                <div class="col-sm-12">
+                    <form action="" method="get">
+                        <div>{{ form.hide_empty_jobs }}
+                        <label for="hide_empty_jobs"></label>
+                        <span class='help'> Hide notifications for jobs where no action was required</span></div>
+                        {{ form.search }} {{ form.search_date }}
+                        <input class="btn btn-info" type="submit" name='search_submitted' value="Search" />
+                        <input class="btn btn-info" type="submit" name='reset' value="Reset" />
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-success">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="success">
+                                        <th>Timestamp</th>
+                                        <th>Log</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for activitylog in logs %}
+                                        <tr>
+                                            <td>{{ activitylog.timestamp|date:"D M Y" }}:{{ activitylog.timestamp|date:"s" }}</td>
+                                            <td>{{ activitylog.log }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    {% if not logs %}
+                                        <tr>
+                                            <td colspan="2">No logs found</td>
+                                        </tr>
+                                    {% endif %}
+
+                                    {% if is_paginated %}
+                                    <tr>
+                                        <td colspan="2">
+
+                                                <div class="pagination">
+                                                    {% if page_obj.has_previous %}
+                                                        <a href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                                                    {% else %}
+                                                        <a class="disabled" disabled=disabled href="#">Previous</a>
+                                                    {% endif %}
+                                                    <span class="page-current">
+                                                        --  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} --
+                                                    </span>
+                                                    {% if page_obj.has_next %}
+                                                        <a href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>
+                                                    {% else %}
+                                                        <a class="disabled" href="#">Next</a>
+                                                    {% endif %}
+                                                </div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    {% endblock content %}
+
+    </body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="{% static 'activitylog/js/activitylog.js' %}"></script>
+<script src="{% static 'activitylog/js/moment.min.js' %}"></script>
+<script src="{% static 'activitylog/js/jquery.datetimepicker.js' %}"></script>
+
+</html>
